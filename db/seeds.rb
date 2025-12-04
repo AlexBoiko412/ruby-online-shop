@@ -1,5 +1,6 @@
 require "open-uri"
 
+User.destroy_all
 Product.destroy_all
 Size.destroy_all
 ProductSize.destroy_all
@@ -71,6 +72,7 @@ end
 User.find_or_create_by!(email: "admin@sportfoot.ua") do |u|
   u.password = "123456"
   u.password_confirmation = "123456"
+  u.admin = true
 end
 
 puts "Створено #{Product.count} товарів!"
