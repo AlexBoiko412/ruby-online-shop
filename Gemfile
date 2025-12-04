@@ -1,7 +1,16 @@
 source "https://rubygems.org"
 
 ruby "3.0.0"
+gem 'devise'
 
+gem 'pundit'
+gem 'bootstrap', '~> 5.3'
+gem 'sassc-rails'
+gem 'autoprefixer-rails'
+gem 'pg_search'
+gem 'image_processing'
+gem 'mini_magick'
+gem 'importmap-rails'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.6"
 
@@ -65,3 +74,4 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
