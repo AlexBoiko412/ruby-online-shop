@@ -63,7 +63,7 @@ products.each do |p|
     brand:       p[:brand],
     price:       p[:price],
     description: p[:description],
-    photo_urls:  p[:photos].join("|||")
+    photo_urls:  p[:photos]
   )
   Size.all.each { |s| product.sizes << s }
 end
