@@ -1,0 +1,82 @@
+<div class="container my-5">
+  <div class="row">
+    <!-- Галерея фото (карусель) -->
+    <div class="col-lg-6">
+      <div class="carousel slide shadow" id="productCarousel-<%= product.id %>" data-bs-ride="carousel">
+        <div class="carousel-inner rounded">
+          <% product.photo_urls.each_with_index do |url, index| %>
+            <div class="carousel-item <%= 'active' if index.zero? %>">
+              <%= image_tag url,
+                            class: "d-block w-100",
+                            style: "height: 500px; object-fit: contain; background: #f8f9fa;",
+                            alt: "#{product.name} - фото #{index + 1}" %>
+            </div>
+          <% end %>
+        </div>
+
+        <% if product.photo_urls.size > 1 %>
+          <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel-<%= product.id %>" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#productCarousel-<%= product.id %>" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+
+          <div class="carousel-indicators mt-3">
+            <% product.photo_urls.each_with_index do |_, index| %>
+              <button type="button" data-bs-target="#productCarousel-<%= product.id %>"
+                      data-bs-slide-to="<%= index %>" class="<%= 'active' if index.zero? %>"
+                      aria-current="<%= 'true' if index.zero? %>"></button>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Інформація про товар -->
+    <div class="col-lg-6">
+      <h1 class="display-5 fw-bold"><%= product.name %></h1>
+      <p class="lead text-muted"><%= product.brand %></p>
+
+      <div class="fs-2 text-primary fw-bold mb-4">
+        <%= number_to_currency(product.price, unit: "₴", precision: 0) %>
+      </div>
+
+      <hr>
+
+      <h4>Опис</h4>
+      <p class="lead"><%= simple_format(product.description) %></p>
+
+      <hr>
+
+      <h5>Доступні розміри:</h5>
+      <div class="d-flex flex-wrap gap-2 mb-4">
+        <% product.sizes.each do |size| %>
+          <span class="badge bg-secondary fs-6 px-3 py-2"><%= size.eu_size %></span>
+        <% end %>
+      </div>
+
+      <!-- Кнопка "В кошик" (якщо не адмін) -->
+      <% unless current_user&.admin? %>
+        <%= form_with url: add_to_cart_path, class: "d-inline" do |f| %>
+          <%= f.hidden_field :product_id, value: product.id %>
+          <%= f.select :size,
+                       options_for_select(product.sizes.map { |s| [s.eu_size, s.eu_size] }),
+                       {},
+                       class: "form-select d-inline-block w-auto me-2" %>
+          <%= f.submit "В кошик", class: "btn btn-success btn-lg" %>
+        <% end %>
+      <% end %>
+
+      <div class="mt-4">
+        <%= link_to "Назад до каталогу", root_path, class: "btn btn-outline-secondary" %>
+        <% if current_user&.admin? %>
+          <%= link_to "Редагувати", edit_product_path(product), class: "btn btn-warning ms-2" %>
+          <%= button_to "Видалити", product, method: :delete,
+                        data: { turbo_confirm: "Точно видалити #{product.name}?" },
+                        class: "btn btn-danger ms-2" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
