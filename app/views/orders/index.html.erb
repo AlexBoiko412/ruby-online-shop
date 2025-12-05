@@ -1,0 +1,30 @@
+ <div class="container my-5">
+  <h1 class="display-5 mb-4">Мої замовлення</h1>
+
+  <% if @orders.present? %>
+    <% @orders.each do |order| %>
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <strong>Замовлення №<%= order.id %></strong> — <%= l(order.created_at, format: :long) %>
+          <span class="float-end">Сума: <%= number_to_currency(order.total_price, unit: "₴") %></span>
+        </div>
+        <div class="card-body">
+          <table class="table table-sm">
+            <% order.order_items.each do |item| %>
+              <tr>
+                <td><%= item.product.name %></td>
+                <td>Розмір <%= item.size %></td>
+                <td class="text-end"><%= number_to_currency(item.price_at_purchase, unit: "₴") %></td>
+              </tr>
+            <% end %>
+          </table>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="text-center py-5">
+      <h3>У вас ще немає замовлень</h3>
+      <%= link_to "Перейти до каталогу", root_path, class: "btn btn-primary mt-3" %>
+    </div>
+  <% end %>
+</div>

@@ -71,7 +71,7 @@
           <%= f.hidden_field :product_id, value: @product.id %>
           <%= f.select :size,
                        options_for_select(@product.sizes.map { |s| [s.eu_size, s.eu_size] }),
-                       { prompt: "Оберіть розмір" },
+                       {},
                        class: "form-select w-auto" %>
           <%= f.submit "В кошик", class: "btn btn-success btn-lg px-5" %>
         <% end %>

@@ -1,20 +1,77 @@
-<h1>Ваш кошик (<%= session[:cart]&.size || 0 %>)</h1>
+<div class="container my-5">
+  <h1 class="display-5 mb-4">Ваш кошик (<%= session[:cart]&.size || 0 %>)</h1>
 
-<% if session[:cart].present? %>
-  <table class="table">
-    <% session[:cart].each do |item| %>
-      <% product = Product.find(item[:product_id]) %>
-      <tr>
-        <td><%= product.name %></td>
-        <td>Розмір: <%= item[:size] %></td>
-        <td><%= number_to_currency(product.price, unit: "₴") %></td>
-      </tr>
-    <% end %>
-  </table>
+  <% if @cart_items.present? %>
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead class="table-dark">
+        <tr>
+          <th>Товар</th>
+          <th>Розмір</th>
+          <th>Ціна</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @cart_items.each do |item| %>
+          <% product = item[:product] %>
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <%= image_tag product.photo_urls.first,
+                              class: "me-3 rounded shadow-sm",
+                              style: "width:90px; height:90px; object-fit:contain;" %>
+                <div>
+                  <strong class="fs-5"><%= product.name %></strong><br>
+                  <small class="text-muted"><%= product.brand %></small>
+                </div>
+              </div>
+            </td>
 
-  <%= button_to "Оформити замовлення", checkout_path, class: "btn btn-success btn-lg" %>
-  <%= link_to "Очистити кошик", cart_path, data: { turbo_method: :delete }, class: "btn btn-danger" %>
-<% else %>
-  <p>Кошик порожній</p>
-<% end %>
-<%= link_to "Продовжити покупки", root_path, class: "btn btn-secondary" %>
+            <td class="align-middle text-center">
+              <strong>Розмір <%= item[:size] %></strong>
+            </td>
+
+            <td class="align-middle">
+              <div class="input-group" style="width: 140px;">
+                <%= button_to "−",
+                              remove_from_cart_path(product_id: product.id, size: item[:size]),
+                              method: :delete,
+                              class: "btn btn-outline-secondary",
+                              form: { data: { turbo: false } } %>
+                <input type="text" value="<%= item[:quantity] %>" class="form-control text-center fw-bold" readonly>
+                <%= button_to "+",
+                              increase_in_cart_path(product_id: product.id, size: item[:size]),
+                              method: :post,
+                              class: "btn btn-outline-secondary",
+                              form: { data: { turbo: false } } %>
+              </div>
+            </td>
+
+            <td class="align-middle text-end">
+              <strong class="fs-4 text-primary">
+                <%= number_to_currency(product.price * item[:quantity], unit: "₴", precision: 0) %>
+              </strong>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-end my-4">
+      <h3>Разом: <%= number_to_currency(@total, unit: "₴", precision: 0) %></h3>
+    </div>
+
+    <div class="text-end">
+      <%= link_to "Продовжити покупки", root_path, class: "btn btn-outline-secondary me-3" %>
+      <%= button_to "Оформити замовлення", checkout_cart_path,
+                    method: :post, class: "btn btn-success btn-lg px-5" %>
+    </div>
+  <% else %>
+    <div class="text-center py-5">
+      <h3>Кошик порожній</h3>
+      <%= link_to "Перейти до каталогу", root_path, class: "btn btn-primary mt-3" %>
+    </div>
+  <% end %>
+</div>
