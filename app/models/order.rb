@@ -2,10 +2,6 @@ class Order < ApplicationRecord
   belongs_to :user
   has_many :order_items, dependent: :destroy
 
-  before_create :calculate_total
+  validates :total_price, numericality: { greater_than_or_equal_to: 0 }
 
-  private
-  def calculate_total
-    self.total_price = order_items.sum { |i| i.price_at_purchase * i.quantity }
-  end
 end
