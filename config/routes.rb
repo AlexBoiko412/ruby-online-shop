@@ -9,9 +9,14 @@ Rails.application.routes.draw do
 
   root "home#index"
   resources :products, only: [:index, :show]
-  post "/add_to_cart", to: "cart#add"
-  get  "/cart",        to: "cart#show"
-  delete "/cart",      to: "cart#clear"
+  get    "/cart",     to: "cart#show",    as: :cart
+  post   "/cart/add", to: "cart#add",     as: :add_to_cart
+  delete "/cart/remove", to: "cart#remove", as: :remove_from_cart
+  post "/cart/increase", to: "cart#increase", as: :increase_in_cart
+  post   "/cart/checkout", to: "cart#checkout", as: :checkout_cart
+
+
+  get "/orders", to: "orders#index", as: :orders
   post   "/checkout",  to: "orders#create"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

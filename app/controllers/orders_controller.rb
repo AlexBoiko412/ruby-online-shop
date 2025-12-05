@@ -1,6 +1,8 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-
+  def index
+    @orders = current_user.orders.order(created_at: :desc)
+  end
   def create
     return redirect_to root_path, alert: "Кошик порожній" unless session[:cart].present?
 

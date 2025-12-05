@@ -19,9 +19,17 @@
 
     <div class="d-flex align-items-center gap-3">
 
-      <span class="text-white">
-        Кошик: <strong><%= session[:cart]&.size || 0 %></strong>
-      </span>
+      <%= link_to cart_path, class: "btn btn-outline-light position-relative me-3" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+          <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </svg>
+        <% if (count = session[:cart]&.size || 0) > 0 %>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <%= count %>
+            <span class="visually-hidden">товарів у кошику</span>
+          </span>
+        <% end %>
+      <% end %>
 
       <% if user_signed_in? %>
 
@@ -34,7 +42,20 @@
           <% end %>
         <% end %>
 
-        <span class="text-white me-2">Привіт, <%= current_user.email.split("@").first %>!</span>
+        <div class="dropdown d-inline-block">
+          <a class="text-white text-decoration-none dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill me-1" viewBox="0 0 16 16">
+              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            </svg>
+            <%= current_user.email.split("@").first.capitalize %>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><%= link_to "Мої замовлення", orders_path, class: "dropdown-item" %></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><%= button_to "Вийти", destroy_user_session_path, method: :delete, class: "dropdown-item text-danger", data: { turbo: false } %></li>
+          </ul>
+        </div>
         <%= button_to "Вийти", destroy_user_session_path,
                       method: :delete,
                       class: "btn btn-outline-danger",
