@@ -1,0 +1,39 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h3 class="mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person-circle me-2" viewBox="0 0 16 16">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.206 4.805 10 8 10s4.758 1.206 5.468 2.37A7 7 0 0 0 8 1z"/>
+            </svg>
+            Мій профіль
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-4"><strong>Email:</strong></div>
+            <div class="col-sm-8"><%= @user.email %></div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-4"><strong>Телефон:</strong></div>
+            <div class="col-sm-8">
+              <%= @user.phone.present? ? @user.phone : "<span class='text-muted'>не вказано</span>".html_safe %>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-4"><strong>Дата реєстрації:</strong></div>
+            <div class="col-sm-8"><%= l(@user.created_at, format: :long) %></div>
+          </div>
+        </div>
+        <div class="card-footer text-center">
+          <%= link_to "Редагувати профіль", edit_user_profile_path, class: "btn btn-warning" %>
+          <%= link_to "Мої замовлення", orders_path, class: "btn btn-primary ms-3" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
