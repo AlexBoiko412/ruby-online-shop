@@ -1,0 +1,80 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+          <h4 class="mb-0">Редагування профілю</h4>
+        </div>
+        <div class="card-body">
+          <%= form_with model: @user, url: user_profile_path, method: :patch, local: true do |f| %>
+            <div class="mb-3">
+              <%= f.label :email, class: "form-label" %>
+              <%= f.email_field :email, class: "form-control #{'is-invalid' if @user.errors[:email].present?}", required: true %>
+              <% if @user.errors[:email].present? %>
+                <div class="invalid-feedback"><%= @user.errors[:email].join(", ") %></div>
+              <% end %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :phone, "Номер телефону (необов’язково)", class: "form-label" %>
+              <%= f.text_field :phone, class: "form-control #{'is-invalid' if @user.errors[:phone].present?}", placeholder: "+380991234567" %>
+              <% if @user.errors[:phone].present? %>
+                <div class="invalid-feedback"><%= @user.errors[:phone].join(", ") %></div>
+              <% end %>
+            </div>
+
+            <hr class="my-4">
+
+            <h5 class="mb-3">Змінити пароль (залиште порожнім, якщо не хочете змінювати)</h5>
+
+            <div class="mb-3">
+              <%= f.label :password, "Новий пароль", class: "form-label" %>
+              <%= f.password_field :password, class: "form-control #{'is-invalid' if @user.errors[:password].present?}" %>
+              <% if @user.errors[:password].present? %>
+                <div class="invalid-feedback">
+                  <% @user.errors[:password].each do |error| %>
+                    <%= error %><br>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="form-text text-muted">
+                  Мінімум 6 символів. Залиште порожнім, якщо не змінюєте пароль.
+                </div>
+              <% end %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :password_confirmation, "Підтвердження нового пароля", class: "form-label" %>
+              <%= f.password_field :password_confirmation, class: "form-control #{'is-invalid' if @user.errors[:password_confirmation].present?}" %>
+              <% if @user.errors[:password_confirmation].present? %>
+                <div class="invalid-feedback"><%= @user.errors[:password_confirmation].join(", ") %></div>
+              <% end %>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="mb-4">
+              <%= f.label :current_password, "Поточний пароль (обов’язково для збереження)", class: "form-label" %>
+              <%= f.password_field :current_password,
+                                   class: "form-control #{'is-invalid' if @user.errors[:current_password].present?}",
+                                   required: true %>
+              <% if @user.errors[:current_password].present? %>
+                <div class="invalid-feedback">
+                  Поточний пароль неправильний
+                </div>
+              <% end %>
+              <div class="form-text">
+                Введіть ваш поточний пароль, щоб підтвердити зміни (навіть якщо змінюєте тільки телефон)
+              </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <%= f.submit "Зберегти зміни", class: "btn btn-success btn-lg px-5" %>
+              <%= link_to "Скасувати", user_profile_path, class: "btn btn-secondary btn-lg ms-3" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
