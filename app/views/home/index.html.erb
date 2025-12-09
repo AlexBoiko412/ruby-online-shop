@@ -2,7 +2,7 @@
   <h1 class="text-center mb-5 display-4 fw-bold">СпортВзуття.ua — найкращі кросівки 2025</h1>
 
   <%= search_form_for @q, url: root_path, method: :get, class: "d-flex flex-column align-items-center gap-lg-2 mb-5 bg-light p-4 rounded shadow-sm" do |f| %>
-    <div class="d-flex gap-lg-2 flex-wrap align-items-end">
+    <div class="d-flex gap-2 flex-wrap align-items-end">
       <div class="">
         <%= f.label :name_or_description_cont, "Пошук товару", class: "form-label fw-bold" %>
         <div class="input-group">
@@ -92,7 +92,7 @@
 
 
       </div>
-      <div class="d-flex gap-lg-2">
+      <div class="d-flex gap-2">
         <%= link_to "Скинути", root_path, class: "btn btn-outline-danger btn-lg" %>
         <button class="btn btn-primary btn-lg" type="submit">
           Пошук
@@ -148,24 +148,24 @@
     </div>
     <div class="mt-5 d-flex justify-content-center">
       <nav aria-label="Пагінація">
-        <ul class="pagination pagination-lg shadow-sm">
+        <ul class="pagination pagination-lg shadow-sm pagination-adaptive">
           <% if @products.prev_page %>
             <li class="page-item">
-              <%= link_to "« Перша", url_for(page: 1), class: "page-link" %>
+              <%= link_to "«", url_for(page: 1), class: "page-link", title: "Перша" %>
             </li>
           <% else %>
             <li class="page-item disabled">
-              <span class="page-link">« Перша</span>
+              <span class="page-link">«</span>
             </li>
           <% end %>
 
           <% if @products.prev_page %>
             <li class="page-item">
-              <%= link_to "‹ Попередня", url_for(page: @products.prev_page), class: "page-link" %>
+              <%= link_to "‹", url_for(page: @products.prev_page), class: "page-link", title: "Попередня" %>
             </li>
           <% else %>
             <li class="page-item disabled">
-              <span class="page-link">‹ Попередня</span>
+              <span class="page-link">‹</span>
             </li>
           <% end %>
 
@@ -198,21 +198,21 @@
 
           <% if @products.next_page %>
             <li class="page-item">
-              <%= link_to "Наступна ›", url_for(page: @products.next_page), class: "page-link" %>
+              <%= link_to "›", url_for(page: @products.next_page), class: "page-link", title: "Наступна" %>
             </li>
           <% else %>
             <li class="page-item disabled">
-              <span class="page-link">Наступна ›</span>
+              <span class="page-link">›</span>
             </li>
           <% end %>
 
           <% if @products.next_page %>
             <li class="page-item">
-              <%= link_to "Остання »", url_for(page: @products.total_pages), class: "page-link" %>
+              <%= link_to "»", url_for(page: @products.total_pages), class: "page-link", title: "Остання" %>
             </li>
           <% else %>
             <li class="page-item disabled">
-              <span class="page-link">Остання »</span>
+              <span class="page-link">»</span>
             </li>
           <% end %>
         </ul>
