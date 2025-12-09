@@ -31,11 +31,11 @@
   </div>
 
   <div class="mb-3">
-    <%= form.label :photo_urls, "Посилання на фото (по одному на рядок)", class: "form-label" %>
+    <%= form.label :photo_urls, "Посилання на фото (кожне посилання в новому рядку)", class: "form-label" %>
     <%= form.text_area :photo_urls,
                        value: product.photo_urls.is_a?(Array) ? product.photo_urls.join("\n") : product.photo_urls,
                        rows: 6, class: "form-control", placeholder: "https://example.com/image1.jpg" %>
-    <div class="form-text">Вставляй кожне посилання з нового рядка</div>
+    <div class="form-text">Кожне посилання з нового рядка</div>
   </div>
 
   <div class="mb-3">
