@@ -4,7 +4,19 @@ class ProductsController < ApplicationController
   before_action :require_admin!, only: [:new, :create, :edit, :update, :destroy]
 
   def index
-    @products = Product.all
+    @q = Product.ransack(params[:q])
+    @products = @q.result(distinct: true).includes(:sizes)
+
+    case params[:sort]
+    when "price_asc"
+      @products = @products.order(price: :asc)
+    when "price_desc"
+      @products = @products.order(price: :desc)
+    when "name"
+      @products = @products.order(name: :asc)
+    else
+      @products = @products.order(created_at: :desc)
+    end
   end
 
   def show
