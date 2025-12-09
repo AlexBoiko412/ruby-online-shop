@@ -1,6 +1,5 @@
 <div class="container my-5">
   <div class="row">
-    <!-- Галерея фото (карусель) -->
     <div class="col-lg-6">
       <div class="carousel slide shadow" id="productCarousel-<%= product.id %>" data-bs-ride="carousel">
         <div class="carousel-inner rounded">
@@ -33,7 +32,6 @@
       </div>
     </div>
 
-    <!-- Інформація про товар -->
     <div class="col-lg-6">
       <h1 class="display-5 fw-bold"><%= product.name %></h1>
       <p class="lead text-muted"><%= product.brand %></p>
@@ -56,7 +54,6 @@
         <% end %>
       </div>
 
-      <!-- Кнопка "В кошик" (якщо не адмін) -->
       <% unless current_user&.admin? %>
         <%= form_with url: add_to_cart_path, class: "d-inline" do |f| %>
           <%= f.hidden_field :product_id, value: product.id %>
