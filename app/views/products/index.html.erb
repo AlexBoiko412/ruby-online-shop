@@ -13,17 +13,16 @@
     </div>
   <% end %>
 
-  <%= search_form_for @q, url: products_path, class: "mb-5 bg-light p-4 rounded shadow-sm" do |f| %>
-    <div class="row g-3 align-items-end">
-      <!-- Пошук -->
-      <div class="col-lg-4">
+  <%= search_form_for @q, url: root_path, method: :get, class: "d-flex flex-column align-items-center gap-lg-2 mb-5 bg-light p-4 rounded shadow-sm" do |f| %>
+    <div class="d-flex gap-lg-2 flex-wrap align-items-end">
+      <div class="">
         <%= f.label :name_or_description_cont, "Пошук товару", class: "form-label fw-bold" %>
         <div class="input-group">
           <%= f.search_field :name_or_description_cont,
-                             class: "form-control form-control-lg",
+                             class: "form-control",
                              placeholder: "Nike Air, Adidas Ultra, кросівки...",
                              value: params.dig(:q, :name_or_description_cont) %>
-          <button class="btn btn-primary btn-lg" type="submit">
+          <button class="btn btn-primary" type="submit">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
             </svg>
@@ -31,7 +30,7 @@
         </div>
       </div>
 
-      <div class="col-lg-2">
+      <div class="">
         <%= f.label :brand_eq, "Бренд", class: "form-label fw-bold" %>
         <%= f.select :brand_eq,
                      options_for_select(Product.distinct.pluck(:brand).sort, params.dig(:q, :brand_eq)),
@@ -39,16 +38,23 @@
                      class: "form-select" %>
       </div>
 
-      <div class="col-lg-2">
+      <div class="">
         <%= f.label :price_gteq, "Ціна від", class: "form-label fw-bold" %>
-        <%= f.number_field :price_gteq, class: "form-control", placeholder: "1000", min: 0 %>
-      </div>
-      <div class="col-lg-2">
-        <%= f.label :price_lteq, "Ціна до", class: "form-label fw-bold" %>
-        <%= f.number_field :price_lteq, class: "form-control", placeholder: "10000", min: 0 %>
+        <%= f.number_field :price_gteq,
+                           class: "form-control",
+                           placeholder: "1000",
+                           min: 0 %>
       </div>
 
-      <div class="col-lg-2 d-flex gap-2">
+      <div class="">
+        <%= f.label :price_lteq, "Ціна до", class: "form-label fw-bold" %>
+        <%= f.number_field :price_lteq,
+                           class: "form-control",
+                           placeholder: "10000",
+                           min: 0 %>
+      </div>
+
+      <div class="d-flex gap-2">
         <div class="dropdown flex-fill">
           <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-up me-1" viewBox="0 0 16 16">
@@ -67,27 +73,133 @@
               <% end %>
             </strong>
           </button>
+
           <ul class="dropdown-menu w-100">
-            <li><%= link_to "За новизною", products_path(q: params[:q]&.permit!.to_h, sort: nil), class: "dropdown-item #{'active' if params[:sort].blank?}" %></li>
-            <li><%= link_to "За ціною (від дешевих)", products_path(q: params[:q]&.permit!.to_h, sort: "price_asc"), class: "dropdown-item #{'active' if params[:sort] == 'price_asc'}" %></li>
-            <li><%= link_to "За ціною (від дорогих)", products_path(q: params[:q]&.permit!.to_h, sort: "price_desc"), class: "dropdown-item #{'active' if params[:sort] == 'price_desc'}" %></li>
-            <li><%= link_to "За назвою (А → Я)", products_path(q: params[:q]&.permit!.to_h, sort: "name"), class: "dropdown-item #{'active' if params[:sort] == 'name'}" %></li>
+            <li>
+              <%= link_to root_path(q: params[:q]&.permit!.to_h, sort: nil),
+                          class: "dropdown-item #{'active' if params[:sort].blank? || params[:sort] == 'newest'}" do %>
+                За новизною
+              <% end %>
+            </li>
+            <li>
+              <%= link_to root_path(q: params[:q]&.permit!.to_h, sort: "price_asc"),
+                          class: "dropdown-item #{'active' if params[:sort] == 'price_asc'}" do %>
+                За ціною (від дешевих)
+              <% end %>
+            </li>
+            <li>
+              <%= link_to root_path(q: params[:q]&.permit!.to_h, sort: "price_desc"),
+                          class: "dropdown-item #{'active' if params[:sort] == 'price_desc'}" do %>
+                За ціною (від дорогих)
+              <% end %>
+            </li>
+            <li>
+              <%= link_to root_path(q: params[:q]&.permit!.to_h, sort: "name"),
+                          class: "dropdown-item #{'active' if params[:sort] == 'name'}" do %>
+                За назвою (А → Я)
+              <% end %>
+            </li>
           </ul>
         </div>
 
-        <%= link_to "Скинути", products_path, class: "btn btn-outline-danger" %>
+
+      </div>
+      <div class="d-flex gap-lg-2">
+        <%= link_to "Скинути", root_path, class: "btn btn-outline-danger btn-lg" %>
+        <button class="btn btn-primary btn-lg" type="submit">
+          Пошук
+        </button>
       </div>
     </div>
   <% end %>
 
   <div class="mb-4 text-muted fs-5">
-    Знайдено: <strong><%= @products.count %></strong> товарів
+    Знайдено: <strong><%= @products.total_count %></strong> товарів
   </div>
 
   <% if @products.present? %>
     <div id="products">
       <% @products.each do |product| %>
         <%= render partial: "product", locals: { product: product } %>
+      <% end %>
+    </div>
+    <div class="mt-5 d-flex justify-content-center">
+      <nav aria-label="Пагінація">
+        <ul class="pagination pagination-lg shadow-sm">
+          <% if @products.prev_page %>
+            <li class="page-item">
+              <%= link_to "« Перша", url_for(page: 1), class: "page-link" %>
+            </li>
+          <% else %>
+            <li class="page-item disabled">
+              <span class="page-link">« Перша</span>
+            </li>
+          <% end %>
+
+          <% if @products.prev_page %>
+            <li class="page-item">
+              <%= link_to "‹ Попередня", url_for(page: @products.prev_page), class: "page-link" %>
+            </li>
+          <% else %>
+            <li class="page-item disabled">
+              <span class="page-link">‹ Попередня</span>
+            </li>
+          <% end %>
+
+          <% [-2, -1, 0, 1, 2].each do |offset| %>
+            <% page_number = @products.current_page + offset %>
+            <% if page_number > 0 && page_number <= @products.total_pages %>
+              <% if offset == 0 %>
+                <li class="page-item active" aria-current="page">
+                  <span class="page-link bg-primary border-primary"><%= page_number %></span>
+                </li>
+              <% else %>
+                <li class="page-item">
+                  <%= link_to page_number, url_for(page: page_number), class: "page-link" %>
+                </li>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% if @products.current_page + 2 < @products.total_pages %>
+            <li class="page-item disabled">
+              <span class="page-link">...</span>
+            </li>
+          <% end %>
+
+          <% if @products.current_page + 2 < @products.total_pages %>
+            <li class="page-item">
+              <%= link_to @products.total_pages, url_for(page: @products.total_pages), class: "page-link" %>
+            </li>
+          <% end %>
+
+          <% if @products.next_page %>
+            <li class="page-item">
+              <%= link_to "Наступна ›", url_for(page: @products.next_page), class: "page-link" %>
+            </li>
+          <% else %>
+            <li class="page-item disabled">
+              <span class="page-link">Наступна ›</span>
+            </li>
+          <% end %>
+
+          <% if @products.next_page %>
+            <li class="page-item">
+              <%= link_to "Остання »", url_for(page: @products.total_pages), class: "page-link" %>
+            </li>
+          <% else %>
+            <li class="page-item disabled">
+              <span class="page-link">Остання »</span>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="text-center text-muted mt-3 mb-5 fs-5">
+      Сторінка <strong><%= @products.current_page %></strong> з <strong><%= @products.total_pages %></strong>
+      <% if @products.total_pages > 1 %>
+        (всього <strong><%= @products.total_count %></strong> товарів)
       <% end %>
     </div>
   <% else %>
