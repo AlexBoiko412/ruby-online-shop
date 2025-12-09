@@ -11,6 +11,7 @@ gem 'pg_search'
 gem 'image_processing'
 gem 'mini_magick'
 gem 'importmap-rails'
+gem 'ransack'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.6"
 
