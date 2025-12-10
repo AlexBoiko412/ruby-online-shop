@@ -14,6 +14,8 @@ class HomeController < ApplicationController
                   .order(sort_order)
                   .page(params[:page])
                   .per(per_page)
+
+    @new_arrivals = Product.includes(:sizes).order(created_at: :desc).limit(4)
   end
 
   private

@@ -1,0 +1,43 @@
+.pagination-adaptive {
+    transition: all 0.3s ease;
+}
+
+
+.navbar {
+    padding: 16px 80px;
+}
+
+@media (max-width: 576px) {
+    .pagination-adaptive.pagination-lg {
+        --bs-pagination-font-size: 0.9rem;
+        --bs-pagination-padding-x: 0.5rem;
+        --bs-pagination-padding-y: 0.25rem;
+    }
+
+    .pagination-adaptive .page-link {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .pagination-adaptive .page-item:not(.active):not(.disabled) .page-link::before {
+        content: attr(title);
+        display: none;
+    }
+
+    .pagination-adaptive .page-item.disabled .page-link {
+        padding: 0.25rem 0.5rem;
+    }
+
+    .pagination-adaptive .page-item.active .page-link {
+        padding: 0.25rem 0.75rem;
+    }
+
+    .navbar {
+        padding: 8px 16px;
+    }
+}
+.pagination-adaptive .page-link:hover {
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
