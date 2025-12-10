@@ -1,5 +1,61 @@
 <div class="container my-5">
-  <h1 class="text-center mb-5 display-4 fw-bold">СпортВзуття.ua — найкращі кросівки 2025</h1>
+  <div class="my-5">
+    <h2 class="text-center mb-5 display-5 fw-bold text-primary">Новинки</h2>
+
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+      <% @new_arrivals.each do |product| %>
+        <div class="col">
+          <div class="card h-100 shadow-sm hover-shadow transition border-0 position-relative">
+            <div class="position-absolute top-0 start-0 bg-danger text-white px-3 py-1 rounded-bottom-end shadow">
+              <small class="fw-bold">НОВИНКА</small>
+            </div>
+
+            <% if product.photo_urls.present? %>
+              <%= link_to product_path(product) do %>
+                <%= image_tag product.photo_urls.first,
+                              class: "card-img-top",
+                              style: "height: 240px; object-fit: contain; background: #f8f9fa;",
+                              alt: product.name %>
+              <% end %>
+            <% else %>
+              <div class="bg-light card-img-top d-flex align-items-center justify-content-center" style="height: 240px;">
+                <span class="text-muted">Без фото</span>
+              </div>
+            <% end %>
+
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title fw-bold"><%= product.name %></h5>
+              <p class="card-text text-muted small"><%= product.brand %></p>
+              <p class="card-text fs-4 fw-bold text-primary mt-auto">
+                <%= number_to_currency(product.price, unit: "₴", precision: 0) %>
+              </p>
+
+              <div class="mt-3">
+                <%= form_with url: add_to_cart_path, class: "d-flex gap-2" do |f| %>
+                  <%= f.hidden_field :product_id, value: product.id %>
+                  <%= f.select :size,
+                               options_for_select(product.sizes.map { |s| [s.eu_size, s.eu_size] }),
+                               { prompt: "Розмір" },
+                               class: "form-select form-select-sm" %>
+                  <%= f.submit "В кошик", class: "btn btn-success btn-sm px-3" %>
+                <% end %>
+              </div>
+
+              <div class="mt-2">
+                <%= link_to "Детальніше →", product_path(product), class: "btn btn-outline-primary btn-sm w-100" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="text-center mt-5">
+      <%= link_to "Переглянути всі товари →", "/products", class: "btn btn-primary btn-lg px-5" %>
+    </div>
+  </div>
+
+  <hr class="my-5">
 
   <%= search_form_for @q, url: root_path, method: :get, class: "d-flex flex-column align-items-center gap-lg-2 mb-5 bg-light p-4 rounded shadow-sm" do |f| %>
     <div class="d-flex gap-2 flex-wrap align-items-end">
