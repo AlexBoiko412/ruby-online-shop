@@ -13,7 +13,7 @@
     </div>
   <% end %>
 
-  <%= search_form_for @q, url: root_path, method: :get, class: "d-flex flex-column align-items-center gap-lg-2 mb-5 bg-light p-4 rounded shadow-sm" do |f| %>
+  <%= search_form_for @q, url: "/products", method: :get, class: "d-flex flex-column align-items-center gap-lg-2 mb-5 bg-light p-4 rounded shadow-sm" do |f| %>
     <div class="d-flex gap-lg-2 flex-wrap align-items-end">
       <div class="">
         <%= f.label :name_or_description_cont, "Пошук товару", class: "form-label fw-bold" %>
