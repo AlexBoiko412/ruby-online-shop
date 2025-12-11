@@ -2,10 +2,10 @@ source "https://rubygems.org"
 
 ruby '3.2.4'
 gem 'devise'
-# group :production do
-#   gem 'pg'
-#   gem 'rails_12factor'
-# end
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
+end
 
 group :development, :test do
   gem 'sqlite3'
@@ -22,7 +22,6 @@ gem 'ransack'
 gem 'kaminari'
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.6"
-gem 'pg', '~> 1.5'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
