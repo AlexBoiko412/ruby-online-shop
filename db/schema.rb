@@ -85,14 +85,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_06_181928) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.text "description"
-    t.decimal "price"
-    t.string "brand"
+    t.decimal "price", precision: 15, scale: 2, default: "0.0", null: false
+    t.string "brand", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "photo_urls", default: [], null: false
+    t.index ["brand"], name: "index_products_on_brand"
     t.index ["photo_urls"], name: "index_products_on_photo_urls", using: :gin
+    t.index ["price"], name: "index_products_on_price"
   end
 
   create_table "sizes", force: :cascade do |t|
