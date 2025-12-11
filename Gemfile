@@ -2,7 +2,14 @@ source "https://rubygems.org"
 
 ruby "3.0.0"
 gem 'devise'
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
+end
 
+group :development, :test do
+  gem 'sqlite3'
+end
 gem 'pundit'
 gem 'bootstrap', '~> 5.3'
 gem 'sassc-rails'
@@ -18,9 +25,6 @@ gem "rails", "~> 7.1.6"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
-
-# Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
