@@ -1,6 +1,6 @@
 <div class="container my-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="display-5 fw-bold">Каталог товарів (адміністрування)</h1>
+    <h1 class="display-5 fw-bold">Каталог товарів</h1>
     <% if current_user&.admin? %>
       <%= link_to "Новий товар", new_product_path, class: "btn btn-success btn-lg" %>
     <% end %>
